@@ -100,11 +100,11 @@
             <objects>
                 <viewController storyboardIdentifier="ListScreen" modalPresentationStyle="fullScreen" id="xeM-NE-vzN" customClass="ListViewController" customModule="BioBall" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="GzL-OF-Ny1">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="YP9-jr-fHt">
-                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
+                                <rect key="frame" x="0.0" y="56" width="414" height="786"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="100" id="CUy-PE-xxi" customClass="BallTableViewCell" customModule="BioBall" customModuleProvider="target">
@@ -287,9 +287,10 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="eQj-6p-xzR"/>
+        <segue reference="0t8-Nv-XJW"/>
+        <segue reference="1vL-Lx-0q3"/>
         <segue reference="CUx-7q-Pg1"/>
-        <segue reference="ZaS-gX-BD1"/>
+        <segue reference="yci-tS-4MU"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="gearshape" catalog="system" width="128" height="123"/>
