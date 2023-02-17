@@ -11,7 +11,7 @@ import CoreData
 import SCLAlertView
 
 class PlayViewController: UIViewController, UICollisionBehaviorDelegate {
-    
+    var pageControl: UIPageControl!
     var animator: UIDynamicAnimator!
     var dataArray = [NSManagedObject]()
     var buttons = [ButtonView]()
@@ -45,6 +45,14 @@ class PlayViewController: UIViewController, UICollisionBehaviorDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(pageControl)
+        // Add constraints to center the page control horizontally and position it at the bottom of the screen
+            NSLayoutConstraint.activate([
+                pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                pageControl.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
+            ])
+        pageControl.addTarget(self, action: #selector(pageControlTapped(_:)), for: .valueChanged)
         let managedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Balls")
             do {
@@ -128,5 +136,10 @@ class PlayViewController: UIViewController, UICollisionBehaviorDelegate {
             performSegue(withIdentifier: "toRight", sender: self)
             
         }
+    }
+    @objc func pageControlTapped(_ sender: UIPageControl) {
+        // Update the current page of the page control to the tapped page
+        pageControl.currentPage = sender.currentPage
+        performSegue(withIdentifier: "toRight", sender: self)
     }
 }

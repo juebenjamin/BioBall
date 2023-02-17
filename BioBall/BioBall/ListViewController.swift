@@ -9,24 +9,25 @@
 import UIKit
 import CoreData
 class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate {
-    
-    var dataArray = [NSManagedObject]() 
-    
+    @IBAction func settingsButtonPressed(_ sender: Any) {
+        let alert = UIAlertController(title: "Settings coming soon!", message: "\n Change Colors\n\n Change Speed\n\n Change Size\n\n Rate/Write Review\n\n Version Viewer", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
+    }
+    @IBOutlet var settingsButton: UIBarButtonItem!
+    var dataArray = [NSManagedObject]()
+    let label = UILabel()
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-          if dataArray.isEmpty {
-              // If the data array is empty, show the label and return 0 rows
-              tableView.backgroundView?.isHidden = false
-              return 0
-          } else {
-              // If the data array is not empty, hide the label and return the number of rows
-              tableView.backgroundView?.isHidden = true
-              return dataArray.count
-          }
-      }
+        let isEmpty = dataArray.isEmpty
+        label.isHidden = !isEmpty
+        return isEmpty ? 0 : dataArray.count
+    }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! BallTableViewCell
         cell.backgroundColor = UIColor.white
@@ -73,6 +74,11 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toLeft" {
+            if let PlayViewController = segue.destination as? PlayViewController {
+                    PlayViewController.pageControl = pageControl
+                }
+        }
         if segue.identifier == "newBall" {
             if dataArray.count >= 10 {
                 let alert = UIAlertController(title: "Cannot Add New Ball", message: "Only 10 or less balls are currently supported.", preferredStyle: .alert)
@@ -89,7 +95,8 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
+        // Update the page control's current page
+        pageControl.currentPage = 1
         // deselect the selected row if any
         let selectedRow: IndexPath? = tableView.indexPathForSelectedRow
         if let selectedRowNotNill = selectedRow {
@@ -97,14 +104,33 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
     @IBOutlet var tableView: UITableView!
+    let pageControl = UIPageControl()
     override func viewDidLoad() {
         super.viewDidLoad()
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(pageControl)
+        NSLayoutConstraint.activate([
+            pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            pageControl.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
+        ])
+        pageControl.numberOfPages = 2 // Set the number of pages to 2
+        pageControl.currentPage = 1 // Set the current page to 1 (The second page)
+        pageControl.addTarget(self, action: #selector(pageControlTapped(_:)), for: .valueChanged)
         navigationController?.navigationBar.tintColor =  UIColor(red: 197/255, green: 0/255, blue: 197/255, alpha: 1)
-        let label = UILabel()
+        // Add a label to the view that will be shown when the data array is empty
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Press the Add button to create a ball!"
         label.textAlignment = .center
-        label.isHidden = true
-        tableView.backgroundView = label
+        print(dataArray.count)
+        label.isHidden = dataArray.count > 0
+        view.addSubview(label)
+
+        // Add constraints to center the label vertically and horizontally
+        NSLayoutConstraint.activate([
+            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            label.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+//        tableView.backgroundView = label
         let managedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
                 let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Balls")
                 do {
@@ -120,12 +146,19 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         tableView.delegate = self
         tableView.dataSource = self
     }
-    
     // Function for swipe right to playing screen
     @objc func swipeFunc(gesture: UISwipeGestureRecognizer) {
         if gesture.direction == .right {
+            if pageControl.currentPage > 0 {
+                        pageControl.currentPage -= 1
+                    }
             performSegue(withIdentifier: "toLeft", sender: self)
         }
     }
-    
+    @objc func pageControlTapped(_ sender: UIPageControl) {
+        // Update the current page of the page control to the tapped page
+        pageControl.currentPage = sender.currentPage
+        // Segue to the other screen in the indicator
+        performSegue(withIdentifier: "toLeft", sender: self)
+    }
 }

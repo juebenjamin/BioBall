@@ -146,7 +146,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="fmM-cH-aJG">
-                        <barButtonItem key="leftBarButtonItem" image="gearshape" catalog="system" id="qvo-Wx-enP"/>
+                        <barButtonItem key="leftBarButtonItem" image="gearshape" catalog="system" id="qvo-Wx-enP">
+                            <connections>
+                                <action selector="settingsButtonPressed:" destination="xeM-NE-vzN" id="oGU-9r-Bur"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Item" image="plus" catalog="system" id="qCj-Aq-2Bc">
                             <connections>
                                 <segue destination="lqa-o1-xRc" kind="show" identifier="newBall" id="CUx-7q-Pg1"/>
@@ -154,6 +158,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="settingsButton" destination="qvo-Wx-enP" id="nPu-iH-nhG"/>
                         <outlet property="tableView" destination="YP9-jr-fHt" id="SGf-zM-kYG"/>
                         <segue destination="joB-WL-qxt" kind="show" identifier="toLeft" customClass="SegueFromLeft" customModule="BioBall" customModuleProvider="target" id="0t8-Nv-XJW"/>
                         <segue destination="lqa-o1-xRc" kind="show" identifier="startEdit" id="QQi-iR-Y8e"/>
