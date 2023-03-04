@@ -10,7 +10,11 @@ import UIKit
 import CoreData
 class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate {
     @IBAction func settingsButtonPressed(_ sender: Any) {
-        let alert = UIAlertController(title: "Settings coming soon!", message: "\n Change Colors\n\n Change Speed\n\n Change Size\n\n Rate/Write Review\n\n Version Viewer", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Features coming soon!", message: "\n Filters\n\n Change Colors\n\n Change Speed\n\n Change Size\n\n Select Background\n\n Rate/Write Review\n\n Share \n\nVersion Viewer", preferredStyle: .alert)
+        let titleString = NSAttributedString(string: alert.title ?? "", attributes: [
+            NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue
+        ])
+        alert.setValue(titleString, forKey: "attributedTitle")
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(okAction)
         present(alert, animated: true, completion: nil)

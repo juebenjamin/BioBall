@@ -20,6 +20,12 @@ class NewBallViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet var descriptionFieldLabel: UILabel!
     let customPurple = UIColor(red: 197/255, green: 0/255, blue: 197/255, alpha: 1)
     let imagePicker = UIImagePickerController()
+    func invalidAlert(){
+        let alert = UIAlertController(title: "Invalid Input", message: "Please make sure you have entered an image, title and description.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
+    }
     @IBAction func upLoadImageBtnPressed(_ sender: Any) {
         let alert = UIAlertController(title: "Choose an option", message: nil, preferredStyle: .actionSheet)
         let pickPhotoAction = UIAlertAction(title: "Chose from Library", style: .default) { (_) in
@@ -104,10 +110,7 @@ class NewBallViewController: UIViewController, UIImagePickerControllerDelegate, 
                     managedObject.setValue(descriptionInput, forKey: "balldescriptions")
                 }
                 else {
-                    let alert = UIAlertController(title: "Invalid Input", message: "Please make sure you have entered an image, title and description.", preferredStyle: .alert)
-                    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                    alert.addAction(okAction)
-                    present(alert, animated: true, completion: nil)
+                    invalidAlert()
                 }
                 if imageData != nil {
                     managedObject.setValue(imageData, forKey: "images")
@@ -132,10 +135,7 @@ class NewBallViewController: UIViewController, UIImagePickerControllerDelegate, 
                     newBall.setValue(descriptionInput, forKey: "balldescriptions")
                 }
                 else {
-                    let alert = UIAlertController(title: "Invalid Input", message: "Please make sure you have entered an image, title and description.", preferredStyle: .alert)
-                    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                    alert.addAction(okAction)
-                    present(alert, animated: true, completion: nil)
+                    invalidAlert()
                 }
                 do {
                   try context.save()
